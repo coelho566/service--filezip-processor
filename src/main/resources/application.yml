@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: batch-processor
+  data:
+    mongodb:
+      uri: mongodb://admin:admin@localhost:27017/db-framezip?authSource=admin
+
+server:
+  port: 5001
