@@ -1,9 +1,9 @@
-package com.filezip.processor.item;
+package com.filezip.processor.application.core.domain;
 
 import lombok.Data;
 
 @Data
-public class VideoFrameItem {
+public class VideoFrame {
 
     private String id;
     private String name;
@@ -13,5 +13,7 @@ public class VideoFrameItem {
     private String directory;
     private String correlationId;
     private Double intervalFrame;
+    private String videoPath;
+    private String keyBucket;
     private String processorStatus;
 }

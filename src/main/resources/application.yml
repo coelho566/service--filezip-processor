@@ -3,7 +3,18 @@ spring:
     name: batch-processor
   data:
     mongodb:
-      uri: mongodb://admin:admin@localhost:27017/db-framezip?authSource=admin
-
+      uri: mongodb+srv://admin:AdminPassword123@deliverynow-cluster.gg846.mongodb.net/?retryWrites=true&w=majority&appName=deliverynow-cluster
+      database: deliverynow-db
 server:
   port: 5001
+
+resources:
+  temp:
+    video: src/main/resources/temp
+    images: src/main/resources/images
+    zip: src/main/resources/arquivo
+
+aws:
+  sqs:
+    queue-name: filezip-process-queue
+
