@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filezip-processor-deployment
+spec:
+  selector:
+    matchLabels:
+      app: service--filezip-processor
+  template:
+    metadata:
+      name: service--filezip-processor
+      labels:
+        app: service--filezip-processor
+    spec:
+      containers:
+        - name: apireplicate
+          image: 110832778598.dkr.ecr.us-east-1.amazonaws.com/service-filezip-management:latest
+          ports:
+            - containerPort: 8081
+          resources:
+            limits:
+              cpu: "300m"
+              memory: "512Mi"
+            requests:
+              cpu: "300m"
+              memory: "512Mi"

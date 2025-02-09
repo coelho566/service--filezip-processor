@@ -3,8 +3,16 @@ spring:
     name: batch-processor
   data:
     mongodb:
-      uri: mongodb+srv://admin:AdminPassword123@deliverynow-cluster.gg846.mongodb.net/?retryWrites=true&w=majority&appName=deliverynow-cluster
+      uri: ${MONGO_URI:mongodb+srv://admin:AdminPassword123@deliverynow-cluster.gg846.mongodb.net/?retryWrites=true&w=majority&appName=deliverynow-cluster}
       database: deliverynow-db
+  cloud:
+    aws:
+      region:
+        static: us-east-1
+      credentials:
+        access-key: ${AWS_ACCESS_KEY_ID:key}
+        secret-key: ${AWS_SECRET_ACCESS_KEY:key}
+        session-token: ${AWS_SESSION_TOKEN:session}
 server:
   port: 5001
 
