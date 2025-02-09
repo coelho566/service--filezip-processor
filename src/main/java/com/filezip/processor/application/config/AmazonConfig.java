@@ -1,5 +1,6 @@
 package com.filezip.processor.application.config;
 
+import io.awspring.cloud.sqs.operations.SqsTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,10 +35,15 @@ public class AmazonConfig {
     @Bean
     public SqsAsyncClient sqsClientAsync() {
         return SqsAsyncClient.builder()
-                .region(Region.US_EAST_1)
+                .region(Region.of(region))
                 .credentialsProvider(StaticCredentialsProvider
                         .create(awsSessionCredentials()))
                 .build();
+    }
+
+    @Bean
+    public SqsTemplate sqsTemplate(SqsAsyncClient sqsAsyncClient){
+        return SqsTemplate.builder().sqsAsyncClient(sqsAsyncClient).build();
     }
 
     @Bean

@@ -13,6 +13,8 @@ spring:
         access-key: ${AWS_ACCESS_KEY_ID:key}
         secret-key: ${AWS_SECRET_ACCESS_KEY:key}
         session-token: ${AWS_SESSION_TOKEN:session}
+      sqs:
+        endpoint: https://sqs.us-east-1.amazonaws.com/110832778598/filezip-send_email_queue
 server:
   port: 5001
 
