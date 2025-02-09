@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: apireplicate
-          image: 110832778598.dkr.ecr.us-east-1.amazonaws.com/service-filezip-management:latest
+          image: 110832778598.dkr.ecr.us-east-1.amazonaws.com/service-filezip-processor:latest
           ports:
             - containerPort: 8081
           resources:
