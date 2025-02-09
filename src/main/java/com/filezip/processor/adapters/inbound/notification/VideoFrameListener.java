@@ -5,14 +5,12 @@ import com.filezip.processor.application.utils.JsonUtils;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.awspring.cloud.sqs.annotation.SqsListener;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -33,7 +31,7 @@ public class VideoFrameListener {
         this.job = job;
         this.jobLauncher = jobLauncher;
         this.jsonUtils = jsonUtils;
-        this.processedIdsCache =  Caffeine.newBuilder()
+        this.processedIdsCache = Caffeine.newBuilder()
                 .expireAfterWrite(10, TimeUnit.MINUTES)  // Expira após 10 minutos
                 .maximumSize(1000)  // Máximo de 1000 entradas
                 .build();

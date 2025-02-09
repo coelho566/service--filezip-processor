@@ -14,7 +14,7 @@ public class JobConfig {
 
     @Bean
     public Job job(JobRepository jobRepository, Step step) {
-        return new JobBuilder("job",jobRepository)
+        return new JobBuilder("job", jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .start(step)
                 .listener(new VideoFrameItemJobExecutionListener())

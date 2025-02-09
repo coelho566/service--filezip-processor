@@ -181,7 +181,7 @@ spec:
       priorityClassName: system-cluster-critical
       serviceAccountName: metrics-server
       volumes:
-        - emptyDir: {}
+        - emptyDir: { }
           name: tmp-dir
 ---
 apiVersion: apiregistration.k8s.io/v1
