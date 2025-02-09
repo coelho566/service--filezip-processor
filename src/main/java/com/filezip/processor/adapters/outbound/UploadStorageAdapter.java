@@ -1,6 +1,8 @@
 package com.filezip.processor.adapters.outbound;
 
 import com.filezip.processor.application.config.ResourcesTempProperties;
+import com.filezip.processor.application.core.exception.BusinessException;
+import com.filezip.processor.application.core.exception.RetryProcessException;
 import com.filezip.processor.application.ports.out.UploadStoragePort;
 import com.filezip.processor.application.utils.PathResourcesUtils;
 import com.filezip.processor.batch.item.VideoProcessItem;
@@ -30,7 +32,6 @@ import java.util.zip.ZipOutputStream;
 public class UploadStorageAdapter implements UploadStoragePort {
 
     private final S3Client s3Client;
-    private final String bucketName = "service-management-bucket";
     private final ResourcesTempProperties resourcesTempProperties;
 
 
@@ -62,20 +63,13 @@ public class UploadStorageAdapter implements UploadStoragePort {
                     var outputPath = String.format("%s/%s/frame_at_%s.jpg", outputFolder, correlationId, currentTime);
                     var output = new File(outputPath);
                     ImageIO.write(image, "jpg", output);
-
-//                    var request = PutObjectRequest.builder()
-//                            .bucket(bucketName)
-//                            .key(String.format("imagens/%s/frame_at_%s.jpg", correlationId, currentTime))
-//                            .build();
-//
-//                    s3Client.putObject(request, RequestBody.fromFile(output));
                 }
             }
 
             grabber.stop();
         } catch (Exception e) {
-            log.error("Error transforming video in frame image {}", e.getMessage());
-            throw new RuntimeException(e);
+            log.error("Error transforming video in frame image");
+            throw new RetryProcessException("Retry processing extract frame video");
         }
     }
 
@@ -94,7 +88,8 @@ public class UploadStorageAdapter implements UploadStoragePort {
                             Files.copy(path, zipOut);
                             zipOut.closeEntry();
                         } catch (Exception e) {
-                            throw new RuntimeException("Erro ao criar arquivo ZIP", e);
+                            log.error("Error processing zip storage for video frame: {}", processItem.getZipId());
+                            throw new RetryProcessException("Retry processing zip storage for video frame: " + processItem.getZipId());
                         }
                     });
 
@@ -111,10 +106,12 @@ public class UploadStorageAdapter implements UploadStoragePort {
                 s3Client.putObject(putObjectRequest, RequestBody.fromBytes(zipBytes));
                 log.info("Finish processing zip storage for video frame: {}", processItem.getZipId());
             } catch (S3Exception e) {
-                throw new RuntimeException("Erro ao enviar o arquivo para o S3", e);
+                log.error("Error seeding zip storage for video frame: {}", processItem.getZipId());
+                throw new RetryProcessException("Retry seeding zip storage for video frame: " + processItem.getZipId());
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("Error processing file zip storage for video frame: {}", processItem.getZipId(), e);
+            throw new BusinessException(e.getMessage());
         }
     }
 }

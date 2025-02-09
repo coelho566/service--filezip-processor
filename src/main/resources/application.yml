@@ -16,5 +16,7 @@ resources:
 
 aws:
   sqs:
-    queue-name: filezip-process-queue
+    email:
+      name: filezip-process-queue
+      url: https://sqs.us-east-1.amazonaws.com/110832778598/filezip-send_email_queue
 

@@ -11,8 +11,16 @@ import software.amazon.awssdk.services.sqs.SqsClient;
 public class AmazonSqsConfig {
 
     @Bean
-    public SqsAsyncClient sqsClient() {
+    public SqsAsyncClient sqsClientAsync() {
         return SqsAsyncClient.builder()
+                .region(Region.US_EAST_1)
+                .credentialsProvider(ProfileCredentialsProvider.create())
+                .build();
+    }
+
+    @Bean
+    public SqsClient sqsClient() {
+        return SqsClient.builder()
                 .region(Region.US_EAST_1)
                 .credentialsProvider(ProfileCredentialsProvider.create())
                 .build();

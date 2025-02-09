@@ -1,8 +1,8 @@
 package com.filezip.processor.batch.config;
 
 import com.filezip.processor.adapters.outbound.repository.VideoFrameRepositoryAdapter;
+import com.filezip.processor.application.core.exception.RetryProcessException;
 import com.filezip.processor.application.ports.in.DownloadVideoStoragePort;
-import com.filezip.processor.application.utils.JsonUtils;
 import com.filezip.processor.batch.item.VideoProcessItem;
 import com.filezip.processor.batch.listeners.VideoFrameItemProcessorListener;
 import com.filezip.processor.batch.listeners.VideoFrameStepExecutionListener;
@@ -27,7 +27,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StepVideoFrameConfig {
 
-    private final JsonUtils jsonUtils;
     private final VideoItemWriter videoItemWriter;
     private final VideoItemProcessor videoItemProcessor;
     private final DownloadVideoStoragePort downloadVideoStorage;
@@ -43,6 +42,9 @@ public class StepVideoFrameConfig {
                 .reader(itemReader(""))
                 .processor(videoItemProcessor)
                 .writer(videoItemWriter)
+                .faultTolerant()
+                .retry(RetryProcessException.class) // Especifica que queremos retry para RuntimeException
+                .retryLimit(3)
                 .listener(videoFrameItemProcessorListener)
                 .listener(videoFrameStepExecutionListener)
                 .build();

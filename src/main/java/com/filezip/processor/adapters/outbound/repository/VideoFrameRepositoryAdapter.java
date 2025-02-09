@@ -1,6 +1,7 @@
 package com.filezip.processor.adapters.outbound.repository;
 
 
+import com.filezip.processor.application.core.exception.ResourceNotFoundException;
 import com.filezip.processor.application.core.repository.VideoFrameRepository;
 import com.filezip.processor.application.core.repository.document.VideoDocument;
 import com.filezip.processor.application.ports.out.VideoFrameRepositoryPort;
@@ -27,7 +28,7 @@ public class VideoFrameRepositoryAdapter implements VideoFrameRepositoryPort {
                     videoFrame.setProcessorStatus(status);
                     return repository.save(videoFrame);
                 })
-                .orElseThrow(() -> new RuntimeException("Video with ID " + videoId + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Video with ID " + videoId + " not found"));
     }
 
     @Override
@@ -36,7 +37,7 @@ public class VideoFrameRepositoryAdapter implements VideoFrameRepositoryPort {
         log.info("Get Video By User Id CorrelationId: {}", videoId);
         var videoDocument = repository.findById(videoId);
         return videoDocument
-                .orElseThrow(() -> new RuntimeException("Video document not found for videoId: " + videoId));
+                .orElseThrow(() -> new ResourceNotFoundException("Video document not found for videoId: " + videoId));
 
     }
 }

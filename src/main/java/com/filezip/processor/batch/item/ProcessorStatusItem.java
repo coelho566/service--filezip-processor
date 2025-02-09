@@ -9,5 +9,6 @@ public enum ProcessorStatusItem {
     STARTING_PROCESS,
     PROCESSING,
     PROCESSED,
-    ERROR
+    ERROR,
+    RETENTIVE_PROCESS
 }
