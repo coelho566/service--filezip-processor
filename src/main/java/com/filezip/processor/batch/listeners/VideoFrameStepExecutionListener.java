@@ -8,8 +8,11 @@ import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 
 @Slf4j
 @Component
@@ -44,9 +47,27 @@ public class VideoFrameStepExecutionListener implements StepExecutionListener {
             Path imagesTemp = Path.of(String.format("src/main/resources/images/%s", fileId));
 
             Files.deleteIfExists(videoTemp);
-            Files.deleteIfExists(imagesTemp);
+            deleteDirectory(imagesTemp);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteDirectory(Path path) throws IOException {
+        if (Files.exists(path)) {
+            Files.walkFileTree(path, new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Files.delete(file); // Apaga o arquivo
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                    Files.delete(dir); // Apaga o diretório depois de apagar os arquivos
+                    return FileVisitResult.CONTINUE;
+                }
+            });
         }
     }
 }
