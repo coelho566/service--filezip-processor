@@ -15,7 +15,7 @@
 
 ## | 🖥️ • Cobertura de Teste
 
-![System design](img/cobertura-teste.png)
+![System design](img/img.png)
 
 ## | 🖥️ • Event Storming
 - https://miro.com/miroverse/system-file-zip/?social=copy-link
