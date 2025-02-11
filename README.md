@@ -15,10 +15,10 @@
 
 ## | 🖥️ • Cobertura de Teste
 
-![System design](img/img.png)
+![System design](img/cobertura-teste.png)
 
 ## | 🖥️ • Event Storming
-- https://miro.com/miroverse/system-file-zip/?social=copy-link
+- https://miro.com/miroverse/sistema-de-delivery/?social=copy-link
 
 ## | ✉️ • Deploying
 
@@ -28,7 +28,7 @@ Este projeto usa Quarkus, e Java 21
 Construir a imagem da aplicação executando o comando abaixo
 
 ```shell script
-docker build -f Dockerfile -t service-filezip-management .
+docker build -f Dockerfile -t service-filezip-processor .
 
 ```
 Executar o comando para subir a imagem do mongo e da aplicação
